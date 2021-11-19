@@ -12,7 +12,7 @@ on:
    workflow_dispatch:
 
  # Environment variables are defined so that they can be used throughout the job definitions.
- env:
+env:
    imageRepository: 'content-web'
    resourceGroupName: 'fabmedical-bg'
    containerRegistryName: 'fabmedicalbg'
