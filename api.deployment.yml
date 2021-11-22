@@ -1,0 +1,88 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "2"
+  creationTimestamp: "2021-11-20T02:31:50Z"
+  generation: 2
+  labels:
+    app: api
+  name: api
+  namespace: default
+  resourceVersion: "281764"
+  selfLink: /apis/apps/v1/namespaces/default/deployments/api
+  uid: da7c0479-9473-4a60-9773-18106c5ebf11
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: api
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: api
+      name: api
+    spec:
+      containers:
+      - image: fabmedicalbg.azurecr.io/content-api
+        env:
+        - name: MONGODB_CONNECTION
+          valueFrom:
+            secretKeyRef:
+              name: cosmosdb
+              key: db
+        imagePullPolicy: Always
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /
+            port: 3001
+            scheme: HTTP
+          initialDelaySeconds: 30
+          periodSeconds: 20
+          successThreshold: 1
+          timeoutSeconds: 10
+        name: api
+        ports:
+        - containerPort: 3001
+          hostPort: 3001
+          protocol: TCP
+        resources:
+          requests:
+            cpu: "1"
+            memory: 128Mi
+        securityContext:
+          privileged: false
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+status:
+  conditions:
+  - lastTransitionTime: "2021-11-20T11:20:55Z"
+    lastUpdateTime: "2021-11-20T11:21:11Z"
+    message: ReplicaSet "api-9d67894b4" has successfully progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  - lastTransitionTime: "2021-11-20T11:47:43Z"
+    lastUpdateTime: "2021-11-20T11:47:43Z"
+    message: Deployment does not have minimum availability.
+    reason: MinimumReplicasUnavailable
+    status: "False"
+    type: Available
+  observedGeneration: 2
+  replicas: 1
+  unavailableReplicas: 1
+  updatedReplicas: 1
