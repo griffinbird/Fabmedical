@@ -20,6 +20,9 @@ function stats() {
 
 exports.speakersGet = function(req, res) {
     speakerController.list({}, function(err, speakers) {
+        if (err) {
+            console.error(err)
+        }
         counters.speakers++;
         res.json(speakers);
     });
@@ -31,6 +34,9 @@ exports.statsGet = function(req, res) {
 };
 exports.sessionsGet = function(req, res) {
     sessionController.list({}, function(err, sessions) {
+        if (err) {
+            console.error(err)
+        }
         counters.sessions++;
         res.json(sessions);
     });
