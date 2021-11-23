@@ -17,7 +17,8 @@ mongoose.connect(config.appSettings.db, { useNewUrlParser: true, useUnifiedTopol
         console.log('Connected to MongoDB');
     }
     mongoose.connection.on('error', err => {
-        console.log(`MongoDB connection error: ${err}`)
+        console.log(`MongoDB connection error: ${err}`);
+    })
 });
 
 require('./models/session.model');
