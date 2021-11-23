@@ -21,7 +21,7 @@ function stats() {
 exports.speakersGet = function(req, res) {
     speakerController.list({}, function(err, speakers) {
         if (err) {
-            console.error(chalk.red(err)
+            console.error(chalk.red(err))
         }
         counters.speakers++;
         res.json(speakers);
